@@ -1,0 +1,7 @@
+plaintext:canyoumeetmeatmidnightihavethegoods
+key:abracadabra
+ciphertext:cbEyqupefKmebKmkdqihytiirvgtkehFodt
+
+plaintext:aaabbbcc
+key:abAB
+ciphertext:abACbcCD
