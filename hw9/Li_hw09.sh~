@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# hw9
+# Yinuo Li
+
+iptables -F
+iptables -X
+
+# Place no restriction on outbound packets
+iptables -A OUTPUT -j ACCEPT
+
+# Block a list of specific ip addresses for all incoming connections
+#iptables -A INPUT -t filter -m iprange --src-range 128.210.15.150-128.210.15.160 -j DROP
+iptables -A INPUT -s 192.168.100.0/24 -j DROP
+
+# Block your computer from being pined by all other hosts
+iptables -A INPUT -p icmp --icmp-type echo-request -j DROP
+
+
+# Set up port-forwarding from an unused port of your choice to port 22 on your computer
+iptables -t nat -A PREROUTING -p tcp -d 192.168.102.37 --dport 422 -j DNAT --to 192.168.102.37:22
+iptables -A INPUT -i eth0 -p tcp --dport 422 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o eth0 -p tcp --sport 422 -m state --state ESTABLISHED -j ACCEPT
+
+# Allow for SSH access (port 22) to your machine form only the ecn.purdue.edu domain
+iptables -A INPUT -p tcp -s 128.210.7.199 --dport 22 -j ACCEPT
+
+
+# Allow HTTPD access on port 80 only from a certain IP
+# Allow only a single IP address in the internet to access your machine for the HTTP service
+iptables -A INPUT -s 128.210.7.199 -p tcp --destination-port 80 -j ACCEPT
+
+# Permit Auth/Ident (port 113)
+# Permit Auth/Ident (port 113) that is used by some services like SMTP and IRC
+iptables -A INPUT -p udp --dport 113 -j ACCEPT
+iptables -A INPUT -p tcp --dport 113 -j ACCEPT
+
+# Show th rules in iptables
+iptables -L
+
+
+#yinuo@yinuo-VirtualBox:~/ECE404/hw9$ sudo bash Li_hw09.sh
+#Chain INPUT (policy ACCEPT)
+#target     prot opt source               destination
+#DROP       all  --  192.168.100.0/24     anywhere
+#DROP       icmp --  anywhere             anywhere             icmp echo-request
+#ACCEPT     tcp  --  anywhere             anywhere             tcp dpt:422 state NEW,ESTABLISHED
+#ACCEPT     tcp  --  purdue.edu           anywhere             tcp dpt:ssh
+#ACCEPT     tcp  --  purdue.edu           anywhere             tcp dpt:http
+#ACCEPT     udp  --  anywhere             anywhere             udp dpt:113
+#ACCEPT     tcp  --  anywhere             anywhere             tcp dpt:auth
+
+#Chain FORWARD (policy ACCEPT)
+#target     prot opt source               destination
+
+#Chain OUTPUT (policy ACCEPT)
+#target     prot opt source               destination
+#ACCEPT     all  --  anywhere             anywhere
+#ACCEPT     tcp  --  anywhere             anywhere             tcp spt:422 state ESTABLISHED
+
+
+

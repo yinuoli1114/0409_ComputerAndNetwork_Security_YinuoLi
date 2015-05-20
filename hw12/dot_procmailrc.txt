@@ -1,0 +1,58 @@
+SHELL=/bin/sh
+PATH=/usr/local/lib/mh:$PATH
+MAILDIR=$HOME/Mail
+LOGFILE=$HOME/Mail/logfile
+SENDMAIL=/usr/sbin/sendmail
+#VERBOSE=1
+VERBOSE=0
+EOL="
+"
+LOG="$EOL$EOL$EOL"
+LOG="New message log:$EOL"
+LOG=`perl GET_MESSAGE_INDEX`
+LOG="$EOL"
+
+## Recipe_1:
+##
+## filter emails with multiple entries in "From:" header
+## 
+##
+:0:
+* ^From: <(.*)+@(.*)+\.(.*)+>,\ ? <(.*)+@(.*)+\.(.*)+>,\ ?
+spamFolder
+
+## Recipe_2:
+##
+## filter emails according to Subject line 
+##  
+## 
+##
+:0 :
+* ^Subjecy.*(medications|diploma|defree|graduate|measures|free|wall|mock|buy|send|single|with)
+spamFolder
+
+## Recipe_3:
+##
+## filter emails according to body
+## 
+##
+:0 B
+* .*(Alert|Ruby|Casino)
+spamFolder
+
+## Recipe_4:
+##
+## compound rules
+## 
+:0 HB:
+* ^Content-Type: multipart/alternative
+spamFolder
+
+## Recipe_5:
+##
+##forward to my purdue email
+:0 :
+* ^From.*purdue\.edu
+!li1114@purdue.edu
+
+

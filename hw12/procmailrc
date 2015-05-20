@@ -1,0 +1,65 @@
+SHELL=/bin/sh
+PATH=/usr/local/lib/mh:$PATH
+MAILDIR=$HOME/Mail
+LOGFILE=$HOME/Mail/logfile
+SENDMAIL=/usr/sbin/sendmail
+#VERBOSE=1
+VERBOSE=0
+EOL="
+"
+LOG="$EOL$EOL$EOL"
+LOG="New message log:$EOL"
+LOG=`perl GET_MESSAGE_INDEX`
+LOG="$EOL"
+
+## Recipe_1:
+##
+## This recipe will be invoked if there are multiple
+## entries in the 'From:' header.
+## These emails will go into spamFolder.
+##
+:0:
+##* ^From: <
+##* ^From:\ (<[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+>,\ ?){2,}
+##* ^From: <[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+>,\ ? <[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+>,\ ?
+* ^From: <(.*)+@(.*)+\.(.*)+>,\ ? <(.*)+@(.*)+\.(.*)+>,\ ?
+spamFolder
+
+## Recipe_2:
+##
+## This recipe will only be invoked if the subject line
+## constains the string 'diploma' or 'degree'. 
+## These emails will go into spamFolder.
+##
+:0 :
+* ^Subject.*(diploma|degree|cheap|partner|medications|measures|buy)
+spamFolder
+
+## Recipe_3:
+##
+## This is one of the recipes filtering the email on the basis of the body.
+## It will put the email to spamFilter.
+##
+:0 B
+* .*(Blazin Sub-Penny|Casino|Palace)
+spamFolder
+
+## Recipe_4:
+##
+## This is one of the recipes filtering the email with compound rules.
+## It will put the email to spamFilter.
+:0 HB:
+* ^Content-Type: multipart/alternative
+spamFolder
+
+## Recipe:
+##
+## This is an emailing recipe.  It will send to my regular
+## Purdue webmail account all messages that originate from
+## the purdue.edu domain.
+##
+##
+:0 :
+* ^From.*purdue\.edu
+!li1114@purdue.edu
+
