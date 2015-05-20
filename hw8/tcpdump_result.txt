@@ -1,0 +1,27 @@
+yinuo@yinuo-VirtualBox:~$ sudo tcpdump -i eth0 -vnn -c 10 'src 1.1.1.1' and 'dst www.purdue.edu'
+[sudo] password for yinuo: 
+tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 65535 bytes
+00:16:40.561931 IP (tos 0x0, ttl 64, id 1, offset 0, flags [none], proto TCP (6), length 40)
+    1.1.1.1.20 > 128.210.7.200.80: Flags [S], cksum 0x04e3 (correct), seq 0, win 8192, length 0
+00:16:40.568186 IP (tos 0x0, ttl 64, id 1, offset 0, flags [none], proto TCP (6), length 40)
+    1.1.1.1.20 > 128.210.7.200.80: Flags [S], cksum 0x04e3 (correct), seq 0, win 8192, length 0
+00:16:40.577003 IP (tos 0x0, ttl 64, id 1, offset 0, flags [none], proto TCP (6), length 40)
+    1.1.1.1.20 > 128.210.7.200.80: Flags [S], cksum 0x04e3 (correct), seq 0, win 8192, length 0
+00:16:40.582619 IP (tos 0x0, ttl 64, id 1, offset 0, flags [none], proto TCP (6), length 40)
+    1.1.1.1.20 > 128.210.7.200.80: Flags [S], cksum 0x04e3 (correct), seq 0, win 8192, length 0
+00:16:40.601480 IP (tos 0x0, ttl 64, id 1, offset 0, flags [none], proto TCP (6), length 40)
+    1.1.1.1.20 > 128.210.7.200.80: Flags [S], cksum 0x04e3 (correct), seq 0, win 8192, length 0
+00:16:40.618350 IP (tos 0x0, ttl 64, id 1, offset 0, flags [none], proto TCP (6), length 40)
+    1.1.1.1.20 > 128.210.7.200.80: Flags [S], cksum 0x04e3 (correct), seq 0, win 8192, length 0
+00:16:40.636559 IP (tos 0x0, ttl 64, id 1, offset 0, flags [none], proto TCP (6), length 40)
+    1.1.1.1.20 > 128.210.7.200.80: Flags [S], cksum 0x04e3 (correct), seq 0, win 8192, length 0
+00:16:40.655576 IP (tos 0x0, ttl 64, id 1, offset 0, flags [none], proto TCP (6), length 40)
+    1.1.1.1.20 > 128.210.7.200.80: Flags [S], cksum 0x04e3 (correct), seq 0, win 8192, length 0
+00:16:40.666489 IP (tos 0x0, ttl 64, id 1, offset 0, flags [none], proto TCP (6), length 40)
+    1.1.1.1.20 > 128.210.7.200.80: Flags [S], cksum 0x04e3 (correct), seq 0, win 8192, length 0
+00:16:40.688368 IP (tos 0x0, ttl 64, id 1, offset 0, flags [none], proto TCP (6), length 40)
+    1.1.1.1.20 > 128.210.7.200.80: Flags [S], cksum 0x04e3 (correct), seq 0, win 8192, length 0
+10 packets captured
+19 packets received by filter
+0 packets dropped by kernel
+
